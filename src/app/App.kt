@@ -1,22 +1,25 @@
 package app
 
 import animations.Animations
-import animations.show.ShowAnimation
+import auth.SignIn
 import react.*
 import react.dom.*
-import logo.*
-import nav.navBar
-import react.router.dom.browserRouter
-import react.router.dom.hashRouter
-import react.router.dom.route
-import react.router.dom.switch
-import ticker.*
+import marketplace.Marketplace
+import nav.NavBar
+import react.router.dom.*
 
 class App : RComponent<RProps, RState>() {
     override fun RBuilder.render() {
         browserRouter {
-            switch {
-                route("/", Animations::class)
+            div("container") {
+
+                route("/", NavBar::class)
+
+                div("row") {
+                    route("/animations", Animations::class)
+                    route("/marketplace", Marketplace::class)
+                    route("/signin", SignIn::class)
+                }
             }
         }
     }

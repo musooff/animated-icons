@@ -1,13 +1,12 @@
 package animations
 
 import animations.show.ShowAnimation
-import react.RBuilder
-import react.RComponent
-import react.RProps
-import react.RState
+import react.*
 import react.dom.*
 import react.router.dom.browserRouter
+import react.router.dom.navLink
 import react.router.dom.route
+import react.router.dom.switch
 
 
 @JsModule("src/logo/kotlin.svg")
@@ -16,14 +15,16 @@ external val simpleImage: dynamic
 class Animations: RComponent<RProps, RState>() {
     override fun RBuilder.render() {
         browserRouter {
-            route("/animation/:id", ShowAnimation::class)
+            route("/animations", exact = true, render = {
+                animations()
+            })
+            route("/animations/:id", ShowAnimation::class)
         }
-        animations()
     }
 }
 
-private fun RBuilder.animations() {
-    div("container") {
+private fun RBuilder.animations(): ReactElement {
+    return div("container") {
         div("row") {
             h2("m-5") {
                 +"Animations"
@@ -40,9 +41,10 @@ private fun RBuilder.animations() {
 
 fun RBuilder.singleAnimation(id: String) {
     div("col-3") {
-        a(classes = "card text-center zoom shadow m-3") {
-            attrs.href = "/animation/$id"
-            img(src = simpleImage) { }
+        navLink("/animations/$id") {
+            a(classes = "card text-center zoom shadow m-3") {
+                img(src = simpleImage) {}
+            }
         }
     }
 }

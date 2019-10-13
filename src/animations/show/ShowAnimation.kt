@@ -76,7 +76,7 @@ private fun RBuilder.showAnimation() {
 
         div("row") {
             h6 {
-              +"Footer"
+              +"Footer section"
             }
         }
 
