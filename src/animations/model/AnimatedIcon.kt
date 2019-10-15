@@ -1,16 +1,16 @@
 package animation
 
 import kotlinx.css.*
-import kotlinx.css.properties.Timing
-import kotlinx.css.properties.ms
+import kotlinx.css.properties.*
 import react.RBuilder
 import styled.animation
 import styled.css
 import styled.styledDiv
 
-
 class AnimatedIcon {
 
+    var containerWidth: Int = 0
+    var containerHeight: Int = 0
     var width: Int = 0
     var height: Int = 0
     var imageUrl: String? = null
@@ -24,19 +24,22 @@ class AnimatedIcon {
 fun RBuilder.showAnimation(animatedIcon: AnimatedIcon) {
     styledDiv {
         css {
-            width = animatedIcon.width.px
-            height = animatedIcon.height.px
-            backgroundRepeat = BackgroundRepeat.noRepeat
+            width = (animatedIcon.containerWidth * animatedIcon.width / animatedIcon.height).px
+            height = animatedIcon.containerHeight.px
             backgroundImage = Image("url(${animatedIcon.imageUrl})")
+            backgroundSize = "cover"
             animation(
                     duration = animatedIcon.animationDuration.ms,
                     handler = {
                         from { backgroundPosition = "${animatedIcon.starPosition.first}px ${animatedIcon.starPosition.second}px" }
-                        to { backgroundPosition = "${animatedIcon.endPosition.first}px ${animatedIcon.endPosition.second}px" }
+                        to { backgroundPosition = "${animatedIcon.endPosition.first * animatedIcon.containerHeight / animatedIcon.height}px ${animatedIcon.endPosition.second}px" }
                     },
-                    timing = Timing("steps(${animatedIcon.animationTimingStep})"))
+                    timing = Timing("steps(${animatedIcon.animationTimingStep})"),
+                    iterationCount = IterationCount.infinite)
 
         }
     }
+
+
 }
 
